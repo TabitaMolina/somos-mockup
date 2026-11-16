@@ -23,6 +23,7 @@
 <main class="container py-4">
   <p><a href="index.html">← Volver al directorio</a></p>
   <div class="row g-4">
+    <!-- COLUMNA IZQUIERDA: DATOS Y CATÁLOGO -->
     <section class="col-lg-7">
       <div class="d-flex gap-3 align-items-center">
         <div class="avatar" id="pro-avatar" style="background:#5b2a6e">CR</div>
@@ -32,43 +33,30 @@
           <span class="etiqueta etiqueta-verde">Credenciales verificadas</span>
         </div>
       </div>
-      <p class="mt-3" id="pro-desc">Atención con ritmo propio, sin apuro y en un espacio tranquilo.</p>
+      <p class="mt-3" id="pro-desc">Atención con ritmo propio...</p>
       
       <h2 class="h4 mt-4">Catálogo de servicios</h2>
+      <!-- Aquí JS inyectará los servicios -->
+      <div id="lista-servicios"></div>
       
-      <div class="tarjeta mb-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
-        <div><strong>Servicio Principal</strong><br><span class="text-secondary">60 min · Presencial, domicilio</span></div>
-        <div><span class="precio">$18.000</span> <button class="btn btn-somos btn-sm servicio" type="button" data-nombre="Servicio Principal" data-precio="18000">Elegido</button></div>
-      </div>
-      <div class="tarjeta mb-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
-        <div><strong>Peinado para evento</strong><br><span class="text-secondary">90 min · Presencial</span></div>
-        <div><span class="precio">$25.000</span> <button class="btn btn-somos-borde btn-sm servicio" type="button" data-nombre="Peinado para evento" data-precio="25000">Elegir</button></div>
-      </div>
-      
-      <h2 class="h4 mt-4">Reseñas</h2>
-      <p><span class="estrellas">★★★★★</span> Excelente atención, muy recomendado.</p>
+      <h2 class="h4 mt-4">Reseñas de la comunidad</h2>
+      <div id="lista-resenas" class="mt-3"></div>
     </section>
+    
+    <!-- COLUMNA DERECHA: AGENDA Y HORARIOS -->
     <aside class="col-lg-5">
       <div class="tarjeta">
         <h2 class="h4">Reserva tu hora</h2>
-        <p><strong id="resumen-servicio">Servicio Principal · $18.000</strong></p>
-        <p class="fw-bold mb-1">Noviembre 2026</p>
-        <div>
-          <button class="opcion dia" type="button">Lun 16</button>
-          <button class="opcion dia" type="button">Mar 17</button>
-          <button class="opcion dia" type="button">Mié 18</button>
-          <button class="opcion dia" type="button">Jue 19</button>
-          <button class="opcion dia" type="button">Vie 20</button>
-          <button class="opcion dia" type="button">Sáb 21</button>
-        </div>
+        <p><strong id="resumen-servicio">Selecciona un servicio</strong></p>
+        
+        <p class="fw-bold mb-1">Días disponibles</p>
+        <!-- Aquí JS inyectará los días -->
+        <div id="dias-disponibles"></div>
+        
         <p class="fw-bold mb-1 mt-2">Horarios disponibles</p>
-        <div>
-          <button class="opcion hora" type="button">09:00</button>
-          <button class="opcion hora" type="button">10:30</button>
-          <button class="opcion hora" type="button" disabled>12:00</button>
-          <button class="opcion hora" type="button">15:00</button>
-          <button class="opcion hora" type="button">16:30</button>
-        </div>
+        <!-- Aquí JS inyectará las horas -->
+        <div id="horas-disponibles"></div>
+        
         <div class="aviso" id="aviso" role="alert">Elige un día y una hora.</div>
         <button class="btn btn-somos w-100 mt-3" type="button" id="agregar">Agregar al carrito</button>
       </div>
@@ -77,23 +65,198 @@
 </main>
 <footer class="pie"><div class="container">Somos Multiespacio Curicó · Prototipo de diseño. No procesa pagos reales.</div></footer>
 <script src="js/app.js"></script>
+
+<!-- SCRIPT PARA DATOS DINÁMICOS -->
 <script>
   const params = new URLSearchParams(window.location.search);
   const proId = params.get('pro') || '1';
+  
+  // BASE DE DATOS SIMULADA (Cada uno con sus servicios, precios, horarios y reseñas)
   const profesionales = {
-      '1': { nombre: 'Camila Rojas', esp: 'Belleza inclusiva', desc: 'Atención con ritmo propio...', color: '#5b2a6e', iniciales: 'CR' },
-      '2': { nombre: 'Valentina Soto', esp: 'Atención domiciliaria', desc: 'Atención en la comodidad de tu hogar...', color: '#1f8a8a', iniciales: 'VS' },
-      '3': { nombre: 'Daniela Muñoz', esp: 'Masoterapia', desc: 'Alivio de tensiones...', color: '#d63a5c', iniciales: 'DM' },
-      '4': { nombre: 'Francisca Araya', esp: 'Fonoaudiología', desc: 'Evaluación y terapia...', color: '#c9801a', iniciales: 'FA' },
-      '5': { nombre: 'Constanza Vera', esp: 'Psicología online', desc: 'Acompañamiento psicológico...', color: '#5b2a6e', iniciales: 'CV' },
-      '6': { nombre: 'Andrea Lagos', esp: 'Pausa activa', desc: 'Ejercicios y dinámicas...', color: '#1f8a8a', iniciales: 'AL' }
+      '1': { 
+          nombre: 'Camila Rojas', esp: 'Belleza inclusiva', desc: 'Atención con ritmo propio, sin apuro y en un espacio tranquilo. Se explica cada paso antes de empezar.', 
+          color: '#5b2a6e', iniciales: 'CR',
+          servicios: [
+              { nombre: 'Corte y peinado', precio: 18000, duracion: '60 min', mod: 'Presencial, domicilio' },
+              { nombre: 'Peinado para evento', precio: 25000, duracion: '90 min', mod: 'Presencial' }
+          ],
+          dias: ['Lun 16', 'Mar 17', 'Mié 18', 'Jue 19'],
+          horas: ['09:00', '10:30', '12:00', '15:00', '16:30'],
+          resenas: [
+              { estrellas: 5, texto: 'Excelente atención, muy recomendado. Tuvo mucha paciencia con mi hijo, que es neurodivergente.' },
+              { estrellas: 5, texto: 'El lugar es muy tranquilo y no hay ruidos molestos. Me explicó todo antes de comenzar.' }
+          ]
+      },
+      '2': { 
+          nombre: 'Valentina Soto', esp: 'Atención domiciliaria', desc: 'Atención en la comodidad de tu hogar, adaptándome a tu rutina y necesidades.', 
+          color: '#1f8a8a', iniciales: 'VS',
+          servicios: [
+              { nombre: 'Atención de enfermería', precio: 35000, duracion: '120 min', mod: 'Domicilio' },
+              { nombre: 'Curación avanzada', precio: 20000, duracion: '45 min', mod: 'Domicilio' }
+          ],
+          dias: ['Lun 16', 'Mié 18', 'Vie 20'],
+          horas: ['08:00', '11:00', '14:00', '17:00'],
+          resenas: [
+              { estrellas: 5, texto: 'Muy puntual. Llegó justo a la hora y trajo todo lo necesario para la atención a domicilio.' },
+              { estrellas: 4, texto: 'Muy buena atención, me sentí muy cómoda en mi casa.' }
+          ]
+      },
+      '3': { 
+          nombre: 'Daniela Muñoz', esp: 'Masoterapia', desc: 'Alivio de tensiones y mejora del bienestar físico a través de masajes terapéuticos.', 
+          color: '#d63a5c', iniciales: 'DM',
+          servicios: [
+              { nombre: 'Masaje descontracturante', precio: 22000, duracion: '60 min', mod: 'Presencial' },
+              { nombre: 'Masaje relajación profunda', precio: 30000, duracion: '90 min', mod: 'Presencial, en línea (guía)' }
+          ],
+          dias: ['Mar 17', 'Jue 19', 'Sáb 21'],
+          horas: ['10:00', '12:30', '16:00', '18:30'],
+          resenas: [
+              { estrellas: 5, texto: 'Tenía mucha tensión en la espalda y salí como nueva. Súper recomendada.' }
+          ]
+      },
+      '4': { 
+          nombre: 'Francisca Araya', esp: 'Fonoaudiología', desc: 'Evaluación y terapia del lenguaje para niños y adultos, presencial y online.', 
+          color: '#c9801a', iniciales: 'FA',
+          servicios: [
+              { nombre: 'Evaluación fonoaudiológica', precio: 25000, duracion: '60 min', mod: 'En línea, Presencial' },
+              { nombre: 'Sesión de terapia infantil', precio: 20000, duracion: '45 min', mod: 'En línea' }
+          ],
+          dias: ['Lun 16', 'Mar 17', 'Mié 18', 'Jue 19', 'Vie 20'],
+          horas: ['09:30', '11:30', '15:30'],
+          resenas: [
+              { estrellas: 5, texto: 'Las sesiones online son muy dinámicas. Mi hijo ha avanzado muchísimo en poco tiempo.' }
+          ]
+      },
+      '5': { 
+          nombre: 'Constanza Vera', esp: 'Psicología online', desc: 'Acompañamiento psicológico desde la comodidad de tu casa. Terapia integral.', 
+          color: '#5b2a6e', iniciales: 'CV',
+          servicios: [
+              { nombre: 'Sesión de psicoterapia', precio: 28000, duracion: '50 min', mod: 'En línea' },
+              { nombre: 'Primera consulta de orientación', precio: 15000, duracion: '30 min', mod: 'En línea' }
+          ],
+          dias: ['Lun 16', 'Mié 18', 'Vie 20'],
+          horas: ['18:00', '19:00', '20:00'],
+          resenas: [
+              { estrellas: 5, texto: 'La terapia online me ha ayudado mucho. Es muy empática y genera un espacio seguro.' }
+          ]
+      },
+      '6': { 
+          nombre: 'Andrea Lagos', esp: 'Pausa activa', desc: 'Ejercicios y dinámicas para mejorar el ambiente laboral y el bienestar corporativo.', 
+          color: '#1f8a8a', iniciales: 'AL',
+          servicios: [
+              { nombre: 'Pausa activa para equipos (hasta 20 personas)', precio: 45000, duracion: '45 min', mod: 'Presencial' },
+              { nombre: 'Taller de manejo del estrés', precio: 60000, duracion: '90 min', mod: 'Presencial, En línea' }
+          ],
+          dias: ['Vie 20', 'Sáb 21'],
+          horas: ['09:00', '11:00'],
+          resenas: [
+              { estrellas: 5, texto: 'Contratamos la pausa activa para la oficina y al equipo le encantó.' }
+          ]
+      }
   };
+  
   const p = profesionales[proId] || profesionales['1'];
+  
+  // 1. Cargar Cabecera
   document.getElementById('pro-nombre').innerText = p.nombre;
   document.getElementById('pro-esp').innerText = p.esp;
   document.getElementById('pro-desc').innerText = p.desc;
   document.getElementById('pro-avatar').style.background = p.color;
   document.getElementById('pro-avatar').innerText = p.iniciales;
+  document.title = p.nombre + ' – Somos Multiespacio Curicó';
+
+  // 2. Cargar Catálogo de Servicios
+  const listaServicios = document.getElementById('lista-servicios');
+  let htmlServicios = '';
+  p.servicios.forEach((s, index) => {
+      htmlServicios += `
+        <div class="tarjeta mb-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <div>
+                <strong>${s.nombre}</strong><br>
+                <span class="text-secondary">${s.duracion} · ${s.mod}</span>
+            </div>
+            <div>
+                <span class="precio">$${s.precio.toLocaleString('es-CL')}</span> 
+                <button class="btn btn-somos-borde btn-sm servicio-btn" type="button" 
+                        data-nombre="${s.nombre}" data-precio="${s.precio}"
+                        onclick="seleccionarServicio(this)">
+                    Elegir
+                </button>
+            </div>
+        </div>
+      `;
+  });
+  listaServicios.innerHTML = htmlServicios;
+
+  // 3. Cargar Días y Horas
+  const listaDias = document.getElementById('dias-disponibles');
+  const listaHoras = document.getElementById('horas-disponibles');
+  
+  let htmlDias = '';
+  p.dias.forEach(d => { htmlDias += `<button class="opcion dia" type="button">${d}</button>`; });
+  listaDias.innerHTML = htmlDias;
+
+  let htmlHoras = '';
+  p.horas.forEach(h => { htmlHoras += `<button class="opcion hora" type="button">${h}</button>`; });
+  listaHoras.innerHTML = htmlHoras;
+
+  // 4. Cargar Reseñas
+  const contenedorResenas = document.getElementById('lista-resenas');
+  let htmlResenas = '';
+  p.resenas.forEach(r => {
+      let estrellasLlenas = '★'.repeat(r.estrellas);
+      let estrellasVacias = '☆'.repeat(5 - r.estrellas);
+      htmlResenas += `
+        <div class="tarjeta mb-3" style="padding: 1rem;">
+            <p class="mb-1"><span class="estrellas fs-5">${estrellasLlenas}${estrellasVacias}</span></p>
+            <p class="mb-0 text-secondary" style="font-size: 0.95rem;">"${r.texto}"</p>
+            <p class="small text-muted mb-0 mt-2">- Cliente verificado</p>
+        </div>
+      `;
+  });
+  contenedorResenas.innerHTML = htmlResenas;
+
+  // 5. Función para seleccionar servicio
+  function seleccionarServicio(btn) {
+      // Quitar clase activa a todos los botones
+      document.querySelectorAll('.servicio-btn').forEach(b => {
+          b.classList.remove('btn-somos');
+          b.classList.add('btn-somos-borde');
+          b.innerText = 'Elegir';
+      });
+      
+      // Poner activo al botón clickeado
+      btn.classList.remove('btn-somos-borde');
+      btn.classList.add('btn-somos');
+      btn.innerText = 'Elegido';
+      
+      // Actualizar el resumen
+      const nombre = btn.getAttribute('data-nombre');
+      const precio = parseInt(btn.getAttribute('data-precio'));
+      document.getElementById('resumen-servicio').innerText = nombre + ' · $' + precio.toLocaleString('es-CL');
+      
+      // ¡NUEVO! Como app.js busca el evento click en los botones de días y horas, 
+      // tenemos que avisarle a app.js cuál es el servicio elegido.
+      // Lo haremos sobreescribiendo las variables globales de app.js si es necesario,
+      // o simplemente actualizando el resumen y dejando que app.js lea el texto.
+  }
+
+  // IMPORTANTE: Como acabamos de crear los botones de día y hora con JS, 
+  // el archivo app.js no los "conoce" porque se cargó antes. 
+  // Vamos a hacer que funcionen directamente aquí:
+  document.querySelectorAll('.dia').forEach(b => {
+      b.addEventListener('click', function() {
+          document.querySelectorAll('.dia').forEach(x => x.classList.remove('activo'));
+          this.classList.add('activo');
+      });
+  });
+  
+  document.querySelectorAll('.hora').forEach(b => {
+      b.addEventListener('click', function() {
+          document.querySelectorAll('.hora').forEach(x => x.classList.remove('activo'));
+          this.classList.add('activo');
+      });
+  });
 </script>
 </body>
 </html>

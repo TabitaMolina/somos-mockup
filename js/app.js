@@ -46,10 +46,17 @@ if (agregar) {
     }
     
     var proNombre = document.getElementById('pro-nombre').innerText;
+    // Leemos el texto del resumen para obtener el servicio y precio exacto
+    var resumenTxt = document.getElementById('resumen-servicio').innerText;
+    var partes = resumenTxt.split(' · ');
+    var nombreServicio = partes[0];
+    
+    // Limpiamos el texto del precio (quitamos el $ y los puntos)
+    var precioTexto = partes[1].replace('$', '').replace(/\./g, '');
     
     window.location.href = 'carrito.html?pro=' + encodeURIComponent(proNombre) + 
-                           '&servicio=' + encodeURIComponent(servicioElegido) + 
-                           '&precio=' + precioElegido + 
+                           '&servicio=' + encodeURIComponent(nombreServicio) + 
+                           '&precio=' + precioTexto + 
                            '&dia=' + encodeURIComponent(hayDia.innerText) + 
                            '&hora=' + encodeURIComponent(hayHora.innerText);
   });
@@ -86,7 +93,6 @@ if (carritoLleno) {
                 document.getElementById('aviso').classList.add('visible');
                 return;
             }
-            // Pasa todos los datos actuales a la página de pago
             window.location.href = 'pago.html?' + urlParams.toString();
         });
     }
@@ -113,8 +119,6 @@ if (pagar) {
         document.getElementById('aviso').classList.add('visible'); 
         return; 
     }
-    
-    // Conserva los datos de la reserva y añade reserva=true
     var currentParams = new URLSearchParams(window.location.search);
     currentParams.set('reserva', 'true');
     window.location.href = 'confirmado.html?' + currentParams.toString();
@@ -148,4 +152,76 @@ if (enviar) {
     error.classList.remove('visible'); 
     gracias.classList.add('visible'); 
   });
+}
+
+// 5. INDEX: SISTEMA DE FILTROS (¡NUEVO!)
+var contenedorPro = document.getElementById('contenedor-profesionales');
+if (contenedorPro) {
+    var aplicarBtn = document.getElementById('aplicar');
+    var limpiarBtn = document.getElementById('limpiar');
+    var precioRange = document.getElementById('precio');
+    var precioValor = document.getElementById('precio-valor');
+
+    // Actualizar el texto del precio cuando se mueve el slider
+    precioRange.addEventListener('input', function(){
+        precioValor.innerText = '$' + parseInt(this.value).toLocaleString('es-CL');
+    });
+
+    aplicarBtn.addEventListener('click', function(){
+        var buscarTxt = document.getElementById('buscar').value.toLowerCase();
+        var regionSel = document.getElementById('region').value;
+        var maxPrecio = parseInt(precioRange.value);
+        
+        // Obtener checkboxes marcados
+        var tiposMarcados = Array.from(document.querySelectorAll('.f-tipo:checked')).map(cb => cb.value);
+        var modsMarcadas = Array.from(document.querySelectorAll('.f-mod:checked')).map(cb => cb.value);
+
+        var tarjetas = document.querySelectorAll('.profesional');
+        var visibles = 0;
+
+        tarjetas.forEach(function(tarjeta) {
+            var nombre = tarjeta.getAttribute('data-nombre').toLowerCase();
+            var region = tarjeta.getAttribute('data-region');
+            var tipo = tarjeta.getAttribute('data-tipo');
+            var mod = tarjeta.getAttribute('data-mod');
+            var precio = parseInt(tarjeta.getAttribute('data-precio'));
+
+            // Lógica de filtrado (deben cumplirse TODAS las condiciones)
+            var cumpleBusqueda = nombre.includes(buscarTxt) || tipo.toLowerCase().includes(buscarTxt);
+            var cumpleRegion = (regionSel === 'Todas') || (region === regionSel);
+            var cumplePrecio = (precio <= maxPrecio);
+            
+            // Si no hay checkboxes marcados, pasa. Si hay, debe coincidir con al menos uno.
+            var cumpleTipo = (tiposMarcados.length === 0) || tiposMarcados.some(t => tipo.includes(t));
+            var cumpleMod = (modsMarcadas.length === 0) || modsMarcadas.some(m => mod.includes(m));
+
+            if (cumpleBusqueda && cumpleRegion && cumplePrecio && cumpleTipo && cumpleMod) {
+                tarjeta.classList.remove('d-none');
+                visibles++;
+            } else {
+                tarjeta.classList.add('d-none');
+            }
+        });
+
+        // Actualizar contador y mensaje vacío
+        document.getElementById('contador').innerText = visibles + (visibles === 1 ? ' profesional' : ' profesionales');
+        if (visibles === 0) {
+            document.getElementById('sin-resultados').classList.remove('d-none');
+        } else {
+            document.getElementById('sin-resultados').classList.add('d-none');
+        }
+    });
+
+    limpiarBtn.addEventListener('click', function(){
+        document.getElementById('buscar').value = '';
+        document.getElementById('region').value = 'Todas';
+        document.querySelectorAll('.f-tipo, .f-mod').forEach(cb => cb.checked = false);
+        precioRange.value = 90000;
+        precioValor.innerText = '$90.000';
+        
+        // Mostrar todas las tarjetas de nuevo
+        document.querySelectorAll('.profesional').forEach(t => t.classList.remove('d-none'));
+        document.getElementById('contador').innerText = '6 profesionales';
+        document.getElementById('sin-resultados').classList.add('d-none');
+    });
 }
