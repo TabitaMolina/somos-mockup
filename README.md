@@ -18,4 +18,5 @@ Los datos son de ejemplo. Los valores "X" están por confirmar con Somos.
 ## Cómo verlo
 Abre `index.html` en el navegador, o usa la extensión Live Server de VS Code.
 
-
+## Publicarlo (GitHub Pages)
+Settings → Pages → rama `main`, carpeta raíz.

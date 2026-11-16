@@ -14,7 +14,7 @@
     <a class="marca" href="index.html">SOMOS<small>Multiespacio Curicó</small></a>
     <nav class="menu d-flex flex-wrap gap-1" aria-label="Principal">
       <a href="index.html" class="activo">Profesionales</a>
-      <a href="carrito.html">Carrito</a>
+      <a href="carrito.html">Carrito (<span id="n-carrito">0</span>)</a>
       <a href="estado.html">Mi reserva</a>
       <a href="admin.html">Administración</a>
     </nav>
@@ -32,30 +32,33 @@
         <label class="form-label fw-bold" for="region">Región</label>
         <select id="region" class="form-select mb-3"><option>Todas</option><option>Maule</option><option>Biobío</option><option>Metropolitana</option></select>
         <h3 class="h6">Tipo de servicio</h3>
-        <div class="form-check"><input class="form-check-input" type="checkbox" id="t1"><label class="form-check-label" for="t1">Belleza inclusiva</label></div>
-        <div class="form-check"><input class="form-check-input" type="checkbox" id="t2"><label class="form-check-label" for="t2">Atención domiciliaria</label></div>
-        <div class="form-check"><input class="form-check-input" type="checkbox" id="t3"><label class="form-check-label" for="t3">Masoterapia</label></div>
-        <div class="form-check"><input class="form-check-input" type="checkbox" id="t4"><label class="form-check-label" for="t4">Fonoaudiología</label></div>
-        <div class="form-check"><input class="form-check-input" type="checkbox" id="t5"><label class="form-check-label" for="t5">Psicología online</label></div>
-        <div class="form-check"><input class="form-check-input" type="checkbox" id="t6"><label class="form-check-label" for="t6">Pausa activa</label></div>
+        <div class="form-check"><input class="form-check-input f-tipo" type="checkbox" id="t1" value="Belleza inclusiva"><label class="form-check-label" for="t1">Belleza inclusiva</label></div>
+        <div class="form-check"><input class="form-check-input f-tipo" type="checkbox" id="t2" value="Atención domiciliaria"><label class="form-check-label" for="t2">Atención domiciliaria</label></div>
+        <div class="form-check"><input class="form-check-input f-tipo" type="checkbox" id="t3" value="Masoterapia"><label class="form-check-label" for="t3">Masoterapia</label></div>
+        <div class="form-check"><input class="form-check-input f-tipo" type="checkbox" id="t4" value="Fonoaudiología"><label class="form-check-label" for="t4">Fonoaudiología</label></div>
+        <div class="form-check"><input class="form-check-input f-tipo" type="checkbox" id="t5" value="Psicología online"><label class="form-check-label" for="t5">Psicología online</label></div>
+        <div class="form-check"><input class="form-check-input f-tipo" type="checkbox" id="t6" value="Pausa activa"><label class="form-check-label" for="t6">Pausa activa</label></div>
         <h3 class="h6 mt-3">Modalidad</h3>
-        <div class="form-check"><input class="form-check-input" type="checkbox" id="m1"><label class="form-check-label" for="m1">Presencial</label></div>
-        <div class="form-check"><input class="form-check-input" type="checkbox" id="m2"><label class="form-check-label" for="m2">En línea</label></div>
-        <div class="form-check"><input class="form-check-input" type="checkbox" id="m3"><label class="form-check-label" for="m3">Domicilio</label></div>
-        <h3 class="h6 mt-3"><label for="precio">Precio máximo</label></h3>
-        <input id="precio" type="range" class="form-range" min="10000" max="90000" step="1000">
+        <div class="form-check"><input class="form-check-input f-mod" type="checkbox" id="m1" value="Presencial"><label class="form-check-label" for="m1">Presencial</label></div>
+        <div class="form-check"><input class="form-check-input f-mod" type="checkbox" id="m2" value="En línea"><label class="form-check-label" for="m2">En línea</label></div>
+        <div class="form-check"><input class="form-check-input f-mod" type="checkbox" id="m3" value="Domicilio"><label class="form-check-label" for="m3">Domicilio</label></div>
+        <h3 class="h6 mt-3"><label for="precio">Precio máximo</label>: <span id="precio-valor">$90.000</span></h3>
+        <input id="precio" type="range" class="form-range" min="10000" max="90000" step="1000" value="90000">
+        <div class="d-flex justify-content-between small text-secondary"><span>$10.000</span><span>$90.000</span></div>
+        <button class="btn btn-somos w-100 mt-3" type="button" id="aplicar">Aplicar filtros</button>
+        <button class="btn btn-somos-borde w-100 mt-2" type="button" id="limpiar">Limpiar filtros</button>
       </div>
     </aside>
     <!-- Resultados -->
     <section class="col-lg-9">
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-        <strong>6 profesionales</strong>
+        <strong id="contador">6 profesionales</strong>
         <label class="d-flex align-items-center gap-2">Ordenar por
           <select class="form-select w-auto"><option>Recomendados</option><option>Menor precio</option></select>
         </label>
       </div>
       <div class="row g-3">
-        <div class="col-md-6 col-xl-4">
+        <div class="col-md-6 col-xl-4 profesional" data-nombre="Camila Rojas" data-esp="Belleza inclusiva" data-region="Maule" data-mod="Presencial,Domicilio" data-precio="18000">
           <article class="tarjeta h-100 d-flex flex-column gap-1">
             <div class="avatar" style="background:#5b2a6e">CR</div>
             <span class="etiqueta align-self-start mt-2">Belleza inclusiva</span>
@@ -67,7 +70,7 @@
             <a class="btn btn-somos mt-auto" href="perfil.html">Ver horas disponibles</a>
           </article>
         </div>
-        <div class="col-md-6 col-xl-4">
+        <div class="col-md-6 col-xl-4 profesional" data-nombre="Valentina Soto" data-esp="Atención domiciliaria" data-region="Maule" data-mod="Domicilio" data-precio="25000">
           <article class="tarjeta h-100 d-flex flex-column gap-1">
             <div class="avatar" style="background:#1f8a8a">VS</div>
             <span class="etiqueta align-self-start mt-2">Atención domiciliaria</span>
@@ -79,7 +82,7 @@
             <a class="btn btn-somos mt-auto" href="perfil.html">Ver horas disponibles</a>
           </article>
         </div>
-        <div class="col-md-6 col-xl-4">
+        <div class="col-md-6 col-xl-4 profesional" data-nombre="Daniela Muñoz" data-esp="Masoterapia" data-region="Biobío" data-mod="Presencial,En línea" data-precio="22000">
           <article class="tarjeta h-100 d-flex flex-column gap-1">
             <div class="avatar" style="background:#d63a5c">DM</div>
             <span class="etiqueta align-self-start mt-2">Masoterapia</span>
@@ -91,7 +94,7 @@
             <a class="btn btn-somos mt-auto" href="perfil.html">Ver horas disponibles</a>
           </article>
         </div>
-        <div class="col-md-6 col-xl-4">
+        <div class="col-md-6 col-xl-4 profesional" data-nombre="Francisca Araya" data-esp="Fonoaudiología" data-region="Biobío" data-mod="En línea,Presencial" data-precio="25000">
           <article class="tarjeta h-100 d-flex flex-column gap-1">
             <div class="avatar" style="background:#c9801a">FA</div>
             <span class="etiqueta align-self-start mt-2">Fonoaudiología</span>
@@ -103,7 +106,7 @@
             <a class="btn btn-somos mt-auto" href="perfil.html">Ver horas disponibles</a>
           </article>
         </div>
-        <div class="col-md-6 col-xl-4">
+        <div class="col-md-6 col-xl-4 profesional" data-nombre="Constanza Vera" data-esp="Psicología online" data-region="Metropolitana" data-mod="En línea" data-precio="28000">
           <article class="tarjeta h-100 d-flex flex-column gap-1">
             <div class="avatar" style="background:#5b2a6e">CV</div>
             <span class="etiqueta align-self-start mt-2">Psicología online</span>
@@ -115,7 +118,7 @@
             <a class="btn btn-somos mt-auto" href="perfil.html">Ver horas disponibles</a>
           </article>
         </div>
-        <div class="col-md-6 col-xl-4">
+        <div class="col-md-6 col-xl-4 profesional" data-nombre="Andrea Lagos" data-esp="Pausa activa" data-region="Maule" data-mod="Presencial" data-precio="45000">
           <article class="tarjeta h-100 d-flex flex-column gap-1">
             <div class="avatar" style="background:#1f8a8a">AL</div>
             <span class="etiqueta align-self-start mt-2">Pausa activa</span>
@@ -128,6 +131,7 @@
           </article>
         </div>
       </div>
+      <p id="sin-resultados" class="d-none mt-3">No hay profesionales con esos filtros. Prueba quitando alguno.</p>
       <nav class="mt-4" aria-label="Paginación"><span class="text-secondary">Anterior · 1 · 2 · 3 · Siguiente</span></nav>
     </section>
   </div>

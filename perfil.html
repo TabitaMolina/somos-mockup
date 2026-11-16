@@ -14,13 +14,13 @@
     <a class="marca" href="index.html">SOMOS<small>Multiespacio Curicó</small></a>
     <nav class="menu d-flex flex-wrap gap-1" aria-label="Principal">
       <a href="index.html" class="activo">Profesionales</a>
-      <a href="carrito.html">Carrito</a>
+      <a href="carrito.html">Carrito (<span id="n-carrito">0</span>)</a>
       <a href="estado.html">Mi reserva</a>
       <a href="admin.html">Administración</a>
     </nav>
   </div>
 </header>
-<main class="container py-4">
+<main class="container py-4" data-profesional="Camila Rojas" data-especialidad="Belleza inclusiva">
   <p><a href="index.html">← Volver al directorio</a></p>
   <div class="row g-4">
     <section class="col-lg-7">
@@ -36,11 +36,11 @@
       <h2 class="h4 mt-4">Catálogo de servicios</h2>
       <div class="tarjeta mb-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
         <div><strong>Corte y peinado</strong><br><span class="text-secondary">60 min · Presencial, domicilio</span></div>
-        <div><span class="precio">$18.000</span> <button class="btn btn-somos btn-sm" type="button">Elegido</button></div>
+        <div><span class="precio">$18.000</span> <button class="btn btn-somos btn-sm servicio" type="button" data-nombre="Corte y peinado" data-precio="18000" data-modalidad="Presencial">Elegido</button></div>
       </div>
       <div class="tarjeta mb-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
         <div><strong>Peinado para evento</strong><br><span class="text-secondary">90 min · Presencial</span></div>
-        <div><span class="precio">$25.000</span> <button class="btn btn-somos-borde btn-sm" type="button">Elegir</button></div>
+        <div><span class="precio">$25.000</span> <button class="btn btn-somos-borde btn-sm servicio" type="button" data-nombre="Peinado para evento" data-precio="25000" data-modalidad="Presencial">Elegir</button></div>
       </div>
       <h2 class="h4 mt-4">Reseñas</h2>
       <p><span class="estrellas">★★★★★</span> Nos explicaron todo antes de empezar y mi hijo estuvo tranquilo.</p>
@@ -50,7 +50,7 @@
     <aside class="col-lg-5">
       <div class="tarjeta">
         <h2 class="h4">Reserva tu hora</h2>
-        <p><strong>Corte y peinado</strong> · $18.000</p>
+        <p><strong id="resumen-servicio">Corte y peinado · $18.000</strong></p>
         <p class="fw-bold mb-1">Noviembre 2026</p>
         <div>
           <button class="opcion dia" type="button">Lun 16</button>
