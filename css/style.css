@@ -1,0 +1,61 @@
+/* ===== Estilos compartidos de Somos Multiespacio Curicó (mockup) ===== */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap');
+
+/* Variables de color: si cambias una aquí, cambia en todo el sitio */
+:root{
+  --morado:#5b2a6e; --verde:#1f8a8a; --rosa:#d63a5c; --naranja:#f2a43a;
+  --fondo:#faf6fb; --texto:#2b1634; --gris:#5d4a68; --borde:#e3d6e8; --suave:#f1e7f4;
+}
+body{background:var(--fondo);color:var(--texto);font-family:'Nunito',system-ui,sans-serif;font-size:1.05rem}
+h1,h2,h3,h4,h5{font-family:'Fredoka','Nunito',sans-serif;color:var(--morado)}
+a{color:var(--morado)}
+:focus-visible{outline:3px solid var(--naranja);outline-offset:2px}
+
+/* Banner superior y encabezado */
+.banner{background:var(--morado);color:#fff;text-align:center;padding:.4rem 1rem;font-size:.9rem;font-weight:600}
+.encabezado{background:#fff;border-bottom:1px solid var(--borde)}
+.marca{font-family:'Fredoka',sans-serif;font-size:1.4rem;color:var(--morado);text-decoration:none;line-height:1.1}
+.marca small{display:block;font:600 .72rem 'Nunito',sans-serif;color:var(--gris)}
+.menu a{padding:.5rem .9rem;border-radius:50rem;text-decoration:none;color:var(--texto);font-weight:700}
+.menu a:hover{background:var(--suave)}
+.menu a.activo{background:var(--morado);color:#fff}
+
+/* Botones */
+.btn-somos{background:var(--morado);color:#fff;border:2px solid var(--morado);border-radius:50rem;font-weight:700;padding:.55rem 1.3rem}
+.btn-somos:hover{background:#431f52;border-color:#431f52;color:#fff}
+.btn-somos-borde{background:transparent;color:var(--morado);border:2px solid var(--morado);border-radius:50rem;font-weight:700;padding:.55rem 1.3rem}
+.btn-somos-borde:hover{background:var(--suave);color:var(--morado)}
+
+/* Tarjetas y etiquetas */
+.tarjeta{background:#fff;border:1px solid var(--borde);border-radius:1.1rem;padding:1.2rem}
+.avatar{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;color:#fff;font:600 1.4rem 'Fredoka',sans-serif;flex:none}
+.etiqueta{display:inline-block;padding:.1rem .75rem;border-radius:50rem;background:var(--suave);color:var(--morado);font-weight:700;font-size:.85rem}
+.etiqueta-verde{background:var(--verde);color:#fff}
+.por-confirmar{background:var(--naranja);color:#2b1634}
+.precio{font:600 1.4rem 'Fredoka',sans-serif}
+.estrellas{color:var(--naranja);letter-spacing:2px}
+.fila-total{display:flex;justify-content:space-between;gap:1rem;border-bottom:1px solid var(--borde);padding:.5rem 0}
+
+/* Botones de día, hora y estrellas (se activan con js/app.js) */
+.opcion{border:2px solid var(--borde);background:#fff;border-radius:.75rem;padding:.4rem .9rem;font-weight:700;margin:0 .4rem .4rem 0;cursor:pointer;color:var(--texto)}
+.opcion.activo{background:var(--verde);border-color:var(--verde);color:#fff}
+.opcion:disabled{text-decoration:line-through;opacity:.4;cursor:not-allowed}
+.estrella{width:48px;height:48px;border-radius:.6rem;border:2px solid var(--borde);background:#fff;font-size:1.5rem;color:var(--gris);cursor:pointer;margin-right:.4rem}
+.estrella.activo{color:var(--naranja);border-color:var(--naranja)}
+
+/* Avisos (ocultos hasta que el JS los muestra) */
+.aviso{display:none;margin-top:1rem;padding:.9rem;border-radius:.75rem;border-left:6px solid var(--rosa);background:var(--suave)}
+.aviso.visible{display:block}
+.aviso.ok{border-color:var(--verde)}
+
+/* Línea de estados de la reserva */
+.pasos{display:flex;flex-wrap:wrap;gap:.75rem;margin:1.2rem 0}
+.paso{flex:1;min-width:130px;text-align:center;padding:.8rem .4rem;border-radius:.75rem;border:2px solid var(--borde);font-weight:700;background:#fff}
+.paso.hecho{background:var(--morado);border-color:var(--morado);color:#fff}
+.paso.pendiente{border-color:var(--naranja)}
+
+/* Panel de administración */
+.lateral{background:var(--morado);border-radius:1rem;padding:1rem}
+.lateral a{display:block;color:#fff;text-decoration:none;font-weight:700;padding:.5rem .6rem;border-radius:.5rem}
+.lateral a:hover,.lateral a.activo{background:rgba(255,255,255,.18)}
+.pie{border-top:1px solid var(--borde);padding:1.2rem 0;color:var(--gris);font-size:.9rem;margin-top:2rem}
