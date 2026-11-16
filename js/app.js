@@ -10,7 +10,6 @@
   var K_CARRITO = 'somos-carrito';
   var K_RESERVA = 'somos-reserva';
 
-  // Lectura y escritura seguras (si el navegador bloquea el almacenamiento, no se rompe la página)
   function leer(clave) {
     try { return JSON.parse(sessionStorage.getItem(clave)); } catch (e) { return null; }
   }
@@ -31,9 +30,9 @@
     el('agregar').addEventListener('click', function () {
       var dia = document.querySelector('.dia.activo');
       var hora = document.querySelector('.hora.activo');
-      var partes = el('resumen-servicio').textContent.split(' · ');   // "Corte y peinado · $18.000"
+      var partes = el('resumen-servicio').textContent.split(' · ');  
 
-      if (!dia || !hora || partes.length < 2) {                       // falta servicio, día u hora
+      if (!dia || !hora || partes.length < 2) {                       
         el('aviso').classList.add('visible');
         return;
       }
@@ -79,7 +78,7 @@
   if (el('pagar')) {
     var carrito = leer(K_CARRITO);
     if (!carrito) {
-      window.location.href = 'carrito.html';        // sin carrito no hay nada que pagar
+      window.location.href = 'carrito.html';        
     } else {
       el('p-detalle').textContent = carrito.servicio + ' · ' + carrito.profesional + ' · ' + fechaTexto(carrito);
       el('p-total').textContent = pesos(carrito.precio) + ' + $X';
@@ -103,7 +102,6 @@
         el('aviso').classList.add('visible');
         return;
       }
-      // El pago crea la reserva y vacía el carrito. El RUT no se guarda en ningún lado.
       guardar(K_RESERVA, {
         profesional: carrito.profesional, servicio: carrito.servicio, precio: carrito.precio,
         dia: carrito.dia, hora: carrito.hora, tipoCliente: tipo.value, reclamo: null
@@ -120,14 +118,46 @@
       el('estado-vacio').classList.toggle('d-none', !!r);
       el('reserva-activa').classList.toggle('d-none', !r);
       if (!r) return;
+      
       el('r-servicio').textContent = r.servicio;
       el('r-pro').textContent = r.profesional;
       el('r-fecha').textContent = fechaTexto(r);
 
+      // Dibujar la línea de tiempo (Pasos) según el estado
+      var pasosHTML = '';
+      if (r.reclamo) {
+          if (r.reclamo.estado === 'reembolsado') {
+              pasosHTML = `
+                  <div class="paso hecho">Pagada</div>
+                  <div class="paso hecho">En garantía</div>
+                  <div class="paso" style="background:var(--rosa); border-color:var(--rosa); color:white;">Reembolsada</div>
+              `;
+              el('texto-reclamo').classList.add('d-none');
+          } else {
+              pasosHTML = `
+                  <div class="paso hecho">Pagada</div>
+                  <div class="paso hecho">En garantía</div>
+                  <div class="paso pendiente">En revisión de reclamo</div>
+              `;
+              el('texto-reclamo').classList.add('d-none');
+          }
+      } else {
+          pasosHTML = `
+              <div class="paso hecho">Pagada</div>
+              <div class="paso hecho">En garantía</div>
+              <div class="paso pendiente">Finalizada<br><small>(por confirmar)</small></div>
+              <div class="paso">Fondos liberados</div>
+          `;
+          el('texto-reclamo').classList.remove('d-none');
+      }
+      el('pasos-reserva').innerHTML = pasosHTML;
+
+      // Manejar el recuadro de info del reclamo
       var info = el('info-reclamo');
       var form = el('form-reclamo');
       form.classList.toggle('d-none', !!r.reclamo);
       info.classList.toggle('d-none', !r.reclamo);
+      
       if (r.reclamo) {
         info.textContent = r.reclamo.estado === 'reembolsado'
           ? 'Reclamo resuelto: Administración reembolsó ' + pesos(r.precio) + '. El dinero vuelve a tu medio de pago.'
@@ -136,10 +166,11 @@
     }
     dibujarEstado();
 
-    el('btn-simular').addEventListener('click', function () {
-      guardar(K_RESERVA, { profesional: 'Camila Rojas', servicio: 'Corte y peinado', precio: 18000,
-                           dia: 'Mié 18', hora: '15:00', tipoCliente: 'persona', reclamo: null });
-      dibujarEstado();
+    // Al apretar el botón de simular, limpiamos la reserva por si quedó basura y enviamos al index
+    el('btn-simular').addEventListener('click', function (e) {
+      e.preventDefault(); // Evita que el enlace del HTML recargue la página
+      borrar(K_RESERVA); // Limpia cualquier reserva anterior
+      window.location.href = 'index.html'; // Redirige al directorio
     });
 
     el('btn-reclamo').addEventListener('click', function () {
@@ -154,14 +185,14 @@
     });
   }
 
-  /* ---------- 5. ADMINISTRACIÓN: reclamos, fondos en garantía y validación ---------- */
+  /* ---------- 5. ADMINISTRACIÓN ---------- */
   if (el('tabla-reclamos')) {
     var filaVacia = el('fila-vacia');
     var textoEscrowOriginal = el('texto-escrow').textContent;
 
     function celda(texto, clase) {
       var td = document.createElement('td');
-      td.textContent = texto;                         // textContent: nunca innerHTML con datos del usuario
+      td.textContent = texto;                        
       if (clase) td.className = clase;
       return td;
     }
@@ -213,7 +244,6 @@
     }
     dibujarAdmin();
 
-    // Validación de profesionales
     document.querySelectorAll('.pro-fila').forEach(function (fila) {
       function resolver(texto) {
         fila.querySelector('.pro-estado').textContent = texto;
@@ -225,7 +255,7 @@
     });
   }
 
-  /* ---------- 6. CALIFICAR: estrellas y envío ---------- */
+  /* ---------- 6. CALIFICAR ---------- */
   var estrellas = document.querySelectorAll('.estrella');
   var nota = 0;
   estrellas.forEach(function (e, i) {
@@ -246,7 +276,7 @@
     });
   }
 
-  /* ---------- 7. BUSCADOR: filtros con botón ---------- */
+  /* ---------- 7. BUSCADOR ---------- */
   if (el('contenedor-profesionales')) {
     var rango = el('precio');
     rango.addEventListener('input', function () { el('precio-valor').textContent = pesos(rango.value); });

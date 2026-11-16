@@ -26,7 +26,8 @@
   <div id="estado-vacio" class="tarjeta text-center py-5">
     <h3 class="h5 text-secondary">Aún no tienes reservas activas</h3>
     <p class="mb-4">Cuando agendes un servicio, aparecerá aquí.</p>
-    <button class="btn btn-somos" id="btn-simular" type="button">Simular una reserva</button>
+    <!-- Cambiamos el texto y la acción del botón -->
+    <a href="index.html" class="btn btn-somos" id="btn-simular">Buscar profesionales</a>
   </div>
 
   <div id="reserva-activa" class="d-none">
@@ -34,13 +35,11 @@
         <strong id="r-servicio">Corte y peinado</strong> · <span id="r-pro">Camila Rojas</span><br>
         <span id="r-fecha">Miércoles 18 de noviembre, 15:00 hrs</span> · ID #00001
     </div>
-    <div class="pasos">
-      <div class="paso hecho">Pagada</div>
-      <div class="paso hecho">En garantía</div>
-      <div class="paso pendiente">Finalizada<br><small>(por confirmar)</small></div>
-      <div class="paso">Fondos liberados</div>
-    </div>
-    <p class="text-secondary">El profesional marca el servicio como finalizado. Tienes X días para reclamar <span class="etiqueta por-confirmar">por confirmar</span>.</p>
+    
+    <!-- Le pusimos un ID a los pasos para poder cambiarlos desde JS -->
+    <div class="pasos" id="pasos-reserva"></div>
+    
+    <p class="text-secondary" id="texto-reclamo">El profesional marca el servicio como finalizado. Tienes X días para reclamar <span class="etiqueta por-confirmar">por confirmar</span>.</p>
     
     <div id="info-reclamo" class="tarjeta d-none mb-3"></div>
     <details class="tarjeta mb-3" id="form-reclamo">
