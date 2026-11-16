@@ -14,7 +14,7 @@
     <a class="marca" href="index.html">SOMOS<small>Multiespacio Curicó</small></a>
     <nav class="menu d-flex flex-wrap gap-1" aria-label="Principal">
       <a href="index.html">Profesionales</a>
-      <a href="carrito.html" class="activo">Carrito (<span id="n-carrito">0</span>)</a>
+      <a href="carrito.html">Carrito (<span id="n-carrito">0</span>)</a>
       <a href="estado.html">Mi reserva</a>
       <a href="admin.html">Administración</a>
     </nav>
@@ -26,10 +26,17 @@
     <h1 class="h2">Pago recibido</h1>
     <p>Tu pago queda en garantía hasta que el servicio sea finalizado.</p>
     <p><span class="etiqueta">ID de transacción: #00001</span></p>
-    <a class="btn btn-somos" href="estado.html">Ver mi reserva</a>
+    <!-- El ID nos sirve para inyectarle los parámetros de la URL -->
+    <a class="btn btn-somos" href="estado.html" id="btn-ver-reserva">Ver mi reserva</a>
   </div>
 </main>
 <footer class="pie"><div class="container">Somos Multiespacio Curicó · Prototipo de diseño. No procesa pagos reales.</div></footer>
 <script src="js/app.js"></script>
+
+<script>
+  // Toma todos los datos de la URL actual y se los pega al botón para que viajen a estado.html
+  const params = window.location.search;
+  document.getElementById('btn-ver-reserva').href = 'estado.html' + params;
+</script>
 </body>
 </html>

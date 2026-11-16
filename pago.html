@@ -14,7 +14,7 @@
     <a class="marca" href="index.html">SOMOS<small>Multiespacio Curicó</small></a>
     <nav class="menu d-flex flex-wrap gap-1" aria-label="Principal">
       <a href="index.html">Profesionales</a>
-      <a href="carrito.html" class="activo">Carrito (<span id="n-carrito">0</span>)</a>
+      <a href="carrito.html" class="activo">Carrito (<span id="n-carrito">1</span>)</a>
       <a href="estado.html">Mi reserva</a>
       <a href="admin.html">Administración</a>
     </nav>
@@ -26,30 +26,35 @@
     <section class="col-lg-7">
       <div class="tarjeta mb-3">
         <h2 class="h4">Datos del cliente</h2>
+        
         <label class="form-label fw-bold" for="tipo-cliente">Tipo de cliente</label>
         <select id="tipo-cliente" class="form-select mb-3">
           <option value="empresa">Empresa privada</option>
           <option value="institucion">Institución, junta de vecinos u organización comunitaria</option>
-          <option value="persona">Persona natural</option>
+          <option value="persona" selected>Persona natural</option>
         </select>
-        <label class="form-label fw-bold" id="etiqueta-rut" for="rut">RUT de la empresa</label>
+        
+        <label class="form-label fw-bold" id="etiqueta-rut" for="rut">RUT (RUN) de la persona</label>
         <input id="rut" class="form-control mb-3" placeholder="12.345.678-9">
+        
         <label class="form-label fw-bold" for="nombre">Nombre o razón social</label>
         <input id="nombre" class="form-control mb-3">
-        <span class="etiqueta etiqueta-verde" id="documento">Documento: Factura</span>
+        
+        <span class="etiqueta etiqueta-verde" id="documento">Documento: Boleta</span>
       </div>
+      
       <div class="tarjeta">
         <h2 class="h4">Medio de pago</h2>
         <p>Proveedor de pagos <span class="etiqueta por-confirmar">por definir</span></p>
         <div class="aviso" id="aviso" role="alert">Completa el RUT y el nombre para continuar.</div>
-        <button class="btn btn-somos w-100 mt-3" type="button" id="pagar">Pagar <span id="p-boton">$18.000</span> + $X</button>
+        <button class="btn btn-somos w-100 mt-3" type="button" id="pagar">Pagar $18.000 + $X</button>
       </div>
     </section>
     <aside class="col-lg-5">
       <div class="tarjeta">
         <h2 class="h4">Resumen</h2>
         <p id="p-detalle">Corte y peinado<br>Camila Rojas<br>Miércoles 18 de noviembre, 15:00 hrs</p>
-        <div class="fila-total"><strong>Total</strong><strong><span id="p-total">$18.000</span> + $X</strong></div>
+        <div class="fila-total"><strong>Total</strong><strong>$18.000 + $X</strong></div>
       </div>
     </aside>
   </div>

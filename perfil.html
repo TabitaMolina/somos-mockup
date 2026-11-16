@@ -20,37 +20,38 @@
     </nav>
   </div>
 </header>
-<main class="container py-4" data-profesional="Camila Rojas" data-especialidad="Belleza inclusiva">
+<main class="container py-4">
   <p><a href="index.html">← Volver al directorio</a></p>
   <div class="row g-4">
     <section class="col-lg-7">
       <div class="d-flex gap-3 align-items-center">
-        <div class="avatar" style="background:#5b2a6e">CR</div>
+        <div class="avatar" id="pro-avatar" style="background:#5b2a6e">CR</div>
         <div>
-          <span class="etiqueta">Belleza inclusiva</span>
-          <h1 class="h2 mb-1">Camila Rojas</h1>
+          <span class="etiqueta" id="pro-esp">Belleza inclusiva</span>
+          <h1 class="h2 mb-1" id="pro-nombre">Camila Rojas</h1>
           <span class="etiqueta etiqueta-verde">Credenciales verificadas</span>
         </div>
       </div>
-      <p class="mt-3">Atención con ritmo propio, sin apuro y en un espacio tranquilo. Se explica cada paso antes de empezar.</p>
+      <p class="mt-3" id="pro-desc">Atención con ritmo propio, sin apuro y en un espacio tranquilo.</p>
+      
       <h2 class="h4 mt-4">Catálogo de servicios</h2>
+      
       <div class="tarjeta mb-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
-        <div><strong>Corte y peinado</strong><br><span class="text-secondary">60 min · Presencial, domicilio</span></div>
-        <div><span class="precio">$18.000</span> <button class="btn btn-somos btn-sm servicio" type="button" data-nombre="Corte y peinado" data-precio="18000" data-modalidad="Presencial">Elegido</button></div>
+        <div><strong>Servicio Principal</strong><br><span class="text-secondary">60 min · Presencial, domicilio</span></div>
+        <div><span class="precio">$18.000</span> <button class="btn btn-somos btn-sm servicio" type="button" data-nombre="Servicio Principal" data-precio="18000">Elegido</button></div>
       </div>
       <div class="tarjeta mb-2 d-flex flex-wrap justify-content-between align-items-center gap-2">
         <div><strong>Peinado para evento</strong><br><span class="text-secondary">90 min · Presencial</span></div>
-        <div><span class="precio">$25.000</span> <button class="btn btn-somos-borde btn-sm servicio" type="button" data-nombre="Peinado para evento" data-precio="25000" data-modalidad="Presencial">Elegir</button></div>
+        <div><span class="precio">$25.000</span> <button class="btn btn-somos-borde btn-sm servicio" type="button" data-nombre="Peinado para evento" data-precio="25000">Elegir</button></div>
       </div>
+      
       <h2 class="h4 mt-4">Reseñas</h2>
-      <p><span class="estrellas">★★★★★</span> Nos explicaron todo antes de empezar y mi hijo estuvo tranquilo.</p>
-      <p><span class="estrellas">★★★★☆</span> Muy puntuales. Me gustaría más horarios en la tarde.</p>
+      <p><span class="estrellas">★★★★★</span> Excelente atención, muy recomendado.</p>
     </section>
-    <!-- Reserva: los botones .dia y .hora se activan con js/app.js -->
     <aside class="col-lg-5">
       <div class="tarjeta">
         <h2 class="h4">Reserva tu hora</h2>
-        <p><strong id="resumen-servicio">Corte y peinado · $18.000</strong></p>
+        <p><strong id="resumen-servicio">Servicio Principal · $18.000</strong></p>
         <p class="fw-bold mb-1">Noviembre 2026</p>
         <div>
           <button class="opcion dia" type="button">Lun 16</button>
@@ -76,5 +77,23 @@
 </main>
 <footer class="pie"><div class="container">Somos Multiespacio Curicó · Prototipo de diseño. No procesa pagos reales.</div></footer>
 <script src="js/app.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const proId = params.get('pro') || '1';
+  const profesionales = {
+      '1': { nombre: 'Camila Rojas', esp: 'Belleza inclusiva', desc: 'Atención con ritmo propio...', color: '#5b2a6e', iniciales: 'CR' },
+      '2': { nombre: 'Valentina Soto', esp: 'Atención domiciliaria', desc: 'Atención en la comodidad de tu hogar...', color: '#1f8a8a', iniciales: 'VS' },
+      '3': { nombre: 'Daniela Muñoz', esp: 'Masoterapia', desc: 'Alivio de tensiones...', color: '#d63a5c', iniciales: 'DM' },
+      '4': { nombre: 'Francisca Araya', esp: 'Fonoaudiología', desc: 'Evaluación y terapia...', color: '#c9801a', iniciales: 'FA' },
+      '5': { nombre: 'Constanza Vera', esp: 'Psicología online', desc: 'Acompañamiento psicológico...', color: '#5b2a6e', iniciales: 'CV' },
+      '6': { nombre: 'Andrea Lagos', esp: 'Pausa activa', desc: 'Ejercicios y dinámicas...', color: '#1f8a8a', iniciales: 'AL' }
+  };
+  const p = profesionales[proId] || profesionales['1'];
+  document.getElementById('pro-nombre').innerText = p.nombre;
+  document.getElementById('pro-esp').innerText = p.esp;
+  document.getElementById('pro-desc').innerText = p.desc;
+  document.getElementById('pro-avatar').style.background = p.color;
+  document.getElementById('pro-avatar').innerText = p.iniciales;
+</script>
 </body>
 </html>

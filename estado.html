@@ -22,26 +22,79 @@
 </header>
 <main class="container py-4">
   <h1 class="mb-4">Mi reserva</h1>
-  <div class="tarjeta"><strong>Corte y peinado</strong> · Camila Rojas<br>Miércoles 18 de noviembre, 15:00 hrs · ID #00001</div>
-  <!-- Los dos primeros pasos están completados; el tercero depende de quién marca "Finalizado" -->
-  <div class="pasos">
-    <div class="paso hecho">Pagada</div>
-    <div class="paso hecho">En garantía</div>
-    <div class="paso pendiente">Finalizada<br><small>(por confirmar)</small></div>
-    <div class="paso">Fondos liberados</div>
+  
+  <div id="estado-vacio" class="tarjeta text-center py-5">
+    <h3 class="h5 text-secondary">Aún no tienes reservas activas</h3>
+    <p class="mb-4">Cuando agendes un servicio, aparecerá aquí.</p>
+    <button class="btn btn-somos" id="btn-simular" type="button">Simular una reserva</button>
   </div>
-  <p class="text-secondary">El profesional marca el servicio como finalizado. Tienes X días para reclamar <span class="etiqueta por-confirmar">por confirmar</span>.</p>
-  <details class="tarjeta mb-3">
-    <summary class="fw-bold">Reportar un problema</summary>
-    <label class="form-label mt-3" for="motivo">Cuéntanos qué pasó</label>
-    <textarea id="motivo" class="form-control mb-3" rows="3"></textarea>
-    <button class="btn btn-somos-borde" type="button">Enviar reclamo</button>
-    <p class="small text-secondary mt-2 mb-0">El pago sigue retenido mientras Administración revisa tu caso.</p>
-  </details>
-  <a class="btn btn-somos" href="calificar.html">Calificar el servicio</a>
-  <p class="small text-secondary mt-2">En el sistema real este botón se habilita solo cuando el servicio está finalizado.</p>
+
+  <div id="reserva-activa" class="d-none">
+    <div class="tarjeta">
+        <strong id="r-servicio">Corte y peinado</strong> · <span id="r-pro">Camila Rojas</span><br>
+        <span id="r-fecha">Miércoles 18 de noviembre, 15:00 hrs</span> · ID #00001
+    </div>
+    <div class="pasos">
+      <div class="paso hecho">Pagada</div>
+      <div class="paso hecho">En garantía</div>
+      <div class="paso pendiente">Finalizada<br><small>(por confirmar)</small></div>
+      <div class="paso">Fondos liberados</div>
+    </div>
+    <p class="text-secondary">El profesional marca el servicio como finalizado. Tienes X días para reclamar <span class="etiqueta por-confirmar">por confirmar</span>.</p>
+    
+    <details class="tarjeta mb-3">
+      <summary class="fw-bold">Reportar un problema</summary>
+      <label class="form-label mt-3" for="motivo">Cuéntanos qué pasó</label>
+      <textarea id="motivo" class="form-control mb-3" rows="3"></textarea>
+      <button class="btn btn-somos-borde" type="button" id="btn-reclamo">Enviar reclamo</button>
+      <p class="small text-secondary mt-2 mb-0">El pago sigue retenido mientras Administración revisa tu caso.</p>
+    </details>
+    
+    <a class="btn btn-somos" href="calificar.html">Calificar el servicio</a>
+  </div>
+
 </main>
 <footer class="pie"><div class="container">Somos Multiespacio Curicó · Prototipo de diseño. No procesa pagos reales.</div></footer>
-<script src="js/app.js"></script>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  
+  // Rellenar los datos de la reserva si vienen en la URL
+  if (urlParams.get('reserva') === 'true') {
+      document.getElementById('estado-vacio').classList.add('d-none');
+      document.getElementById('reserva-activa').classList.remove('d-none');
+      
+      if (urlParams.has('servicio')) {
+          document.getElementById('r-servicio').innerText = urlParams.get('servicio');
+          document.getElementById('r-pro').innerText = urlParams.get('pro');
+          document.getElementById('r-fecha').innerText = urlParams.get('dia') + ' a las ' + urlParams.get('hora') + ' hrs';
+      }
+  }
+
+  document.getElementById('btn-simular').addEventListener('click', function() {
+    document.getElementById('estado-vacio').classList.add('d-none');
+    document.getElementById('reserva-activa').classList.remove('d-none');
+  });
+
+  document.getElementById('btn-reclamo').addEventListener('click', function() {
+    var textoReclamo = document.getElementById('motivo').value.trim();
+    if (!textoReclamo) {
+        alert('Por favor, cuéntanos qué pasó antes de enviar el reclamo.');
+        return;
+    }
+    
+    // Capturamos el nombre y precio actuales (o usamos los de Camila por defecto si simularon)
+    var proActual = document.getElementById('r-pro').innerText;
+    var precioActual = urlParams.get('precio') || '18000'; 
+
+    // Enviamos TODOS los datos al administrador
+    var textoCodificado = encodeURIComponent(textoReclamo);
+    alert('Reclamo enviado con éxito.');
+    window.location.href = 'admin.html?reclamo=true' + 
+                           '&motivo=' + textoCodificado + 
+                           '&pro=' + encodeURIComponent(proActual) + 
+                           '&precio=' + precioActual;
+  });
+</script>
 </body>
 </html>

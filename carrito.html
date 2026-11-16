@@ -22,20 +22,20 @@
 </header>
 <main class="container py-4">
   <h1 class="mb-4">Tu carrito</h1>
-  <!-- Se muestra uno u otro según haya algo guardado (lo decide js/app.js) -->
-  <div id="carrito-vacio" class="tarjeta d-none">
-    <p>Tu carrito está vacío.</p>
+  
+  <div id="carrito-vacio" class="tarjeta d-none text-center py-5">
+    <p class="text-secondary">Tu carrito está vacío.</p>
     <a class="btn btn-somos" href="index.html">Buscar profesionales</a>
   </div>
-  <div id="carrito-lleno" class="row g-4">
+
+  <div id="carrito-lleno" class="row g-4 d-none">
     <section class="col-lg-7">
       <div class="tarjeta d-flex flex-wrap justify-content-between gap-3">
         <div>
           <strong id="c-servicio"></strong><br>
           <span id="c-detalle"></span><br>
           <span id="c-fecha"></span><br>
-          <span class="text-secondary" id="c-modalidad"></span><br>
-          <button class="btn btn-link text-danger p-0" type="button" id="quitar">Quitar</button>
+          <button class="btn btn-link text-danger p-0 mt-2" type="button" onclick="window.location.href='index.html'">Quitar</button>
         </div>
         <div class="precio" id="c-precio"></div>
       </div>
@@ -46,12 +46,13 @@
         <div class="fila-total"><span>Valor del servicio</span><strong id="r-valor"></strong></div>
         <div class="fila-total"><span>Cargo por gestión <span class="etiqueta por-confirmar">por confirmar</span></span><strong>$X</strong></div>
         <div class="fila-total"><strong>Total</strong><strong id="r-total"></strong></div>
+        
         <div class="form-check mt-3">
           <input class="form-check-input" type="checkbox" id="terminos">
           <label class="form-check-label" for="terminos">Acepto los términos y condiciones. La plataforma actúa como intermediario de servicios.</label>
         </div>
         <div class="aviso" id="aviso" role="alert">Debes aceptar los términos para continuar.</div>
-        <button class="btn btn-somos w-100 mt-3" type="button" id="ir-pagar">Ir a pagar</button>
+        <button class="btn btn-somos w-100 mt-3" type="button" id="ir-pagar-btn">Ir a pagar</button>
         <p class="small text-secondary mt-2 mb-0">Tu pago queda retenido hasta que el servicio se realice.</p>
       </div>
     </aside>

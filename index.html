@@ -23,7 +23,6 @@
 <main class="container py-4">
   <h1 class="mb-4">Encuentra el servicio de bienestar que necesitas</h1>
   <div class="row g-4">
-    <!-- Columna de filtros (en el mockup no filtran; en Django se conectarán a la base de datos) -->
     <aside class="col-lg-3">
       <div class="tarjeta">
         <h2 class="h5">Filtros</h2>
@@ -49,7 +48,6 @@
         <button class="btn btn-somos-borde w-100 mt-2" type="button" id="limpiar">Limpiar filtros</button>
       </div>
     </aside>
-    <!-- Resultados -->
     <section class="col-lg-9">
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
         <strong id="contador">6 profesionales</strong>
@@ -58,7 +56,7 @@
         </label>
       </div>
       <div class="row g-3">
-        <div class="col-md-6 col-xl-4 profesional" data-nombre="Camila Rojas" data-esp="Belleza inclusiva" data-region="Maule" data-mod="Presencial,Domicilio" data-precio="18000">
+        <div class="col-md-6 col-xl-4 profesional">
           <article class="tarjeta h-100 d-flex flex-column gap-1">
             <div class="avatar" style="background:#5b2a6e">CR</div>
             <span class="etiqueta align-self-start mt-2">Belleza inclusiva</span>
@@ -66,11 +64,11 @@
             <p class="text-secondary mb-0">Maule · Presencial, domicilio</p>
             <p class="estrellas mb-0">★★★★★</p>
             <p class="precio mb-1">Desde $18.000</p>
-            <span class="etiqueta por-confirmar align-self-start">Primera consulta gratis</span>
-            <a class="btn btn-somos mt-auto" href="perfil.html">Ver horas disponibles</a>
+            <!-- CAMBIO AQUÍ: Enlace con parámetro ?pro=1 -->
+            <a class="btn btn-somos mt-auto" href="perfil.html?pro=1">Ver horas disponibles</a>
           </article>
         </div>
-        <div class="col-md-6 col-xl-4 profesional" data-nombre="Valentina Soto" data-esp="Atención domiciliaria" data-region="Maule" data-mod="Domicilio" data-precio="25000">
+        <div class="col-md-6 col-xl-4 profesional">
           <article class="tarjeta h-100 d-flex flex-column gap-1">
             <div class="avatar" style="background:#1f8a8a">VS</div>
             <span class="etiqueta align-self-start mt-2">Atención domiciliaria</span>
@@ -78,11 +76,11 @@
             <p class="text-secondary mb-0">Maule · Domicilio</p>
             <p class="estrellas mb-0">★★★★★</p>
             <p class="precio mb-1">Desde $25.000</p>
-            
-            <a class="btn btn-somos mt-auto" href="perfil.html">Ver horas disponibles</a>
+            <!-- CAMBIO AQUÍ: Enlace con parámetro ?pro=2 -->
+            <a class="btn btn-somos mt-auto" href="perfil.html?pro=2">Ver horas disponibles</a>
           </article>
         </div>
-        <div class="col-md-6 col-xl-4 profesional" data-nombre="Daniela Muñoz" data-esp="Masoterapia" data-region="Biobío" data-mod="Presencial,En línea" data-precio="22000">
+        <div class="col-md-6 col-xl-4 profesional">
           <article class="tarjeta h-100 d-flex flex-column gap-1">
             <div class="avatar" style="background:#d63a5c">DM</div>
             <span class="etiqueta align-self-start mt-2">Masoterapia</span>
@@ -90,11 +88,11 @@
             <p class="text-secondary mb-0">Biobío · Presencial, en línea</p>
             <p class="estrellas mb-0">★★★★★</p>
             <p class="precio mb-1">Desde $22.000</p>
-            <span class="etiqueta por-confirmar align-self-start">Primera consulta gratis</span>
-            <a class="btn btn-somos mt-auto" href="perfil.html">Ver horas disponibles</a>
+            <!-- CAMBIO AQUÍ: Enlace con parámetro ?pro=3 -->
+            <a class="btn btn-somos mt-auto" href="perfil.html?pro=3">Ver horas disponibles</a>
           </article>
         </div>
-        <div class="col-md-6 col-xl-4 profesional" data-nombre="Francisca Araya" data-esp="Fonoaudiología" data-region="Biobío" data-mod="En línea,Presencial" data-precio="25000">
+        <div class="col-md-6 col-xl-4 profesional">
           <article class="tarjeta h-100 d-flex flex-column gap-1">
             <div class="avatar" style="background:#c9801a">FA</div>
             <span class="etiqueta align-self-start mt-2">Fonoaudiología</span>
@@ -102,11 +100,11 @@
             <p class="text-secondary mb-0">Biobío · En línea, presencial</p>
             <p class="estrellas mb-0">★★★★★</p>
             <p class="precio mb-1">Desde $25.000</p>
-            
-            <a class="btn btn-somos mt-auto" href="perfil.html">Ver horas disponibles</a>
+            <!-- CAMBIO AQUÍ: Enlace con parámetro ?pro=4 -->
+            <a class="btn btn-somos mt-auto" href="perfil.html?pro=4">Ver horas disponibles</a>
           </article>
         </div>
-        <div class="col-md-6 col-xl-4 profesional" data-nombre="Constanza Vera" data-esp="Psicología online" data-region="Metropolitana" data-mod="En línea" data-precio="28000">
+        <div class="col-md-6 col-xl-4 profesional">
           <article class="tarjeta h-100 d-flex flex-column gap-1">
             <div class="avatar" style="background:#5b2a6e">CV</div>
             <span class="etiqueta align-self-start mt-2">Psicología online</span>
@@ -114,11 +112,11 @@
             <p class="text-secondary mb-0">Metropolitana · En línea</p>
             <p class="estrellas mb-0">★★★★★</p>
             <p class="precio mb-1">Desde $28.000</p>
-            <span class="etiqueta por-confirmar align-self-start">Primera consulta gratis</span>
-            <a class="btn btn-somos mt-auto" href="perfil.html">Ver horas disponibles</a>
+            <!-- CAMBIO AQUÍ: Enlace con parámetro ?pro=5 -->
+            <a class="btn btn-somos mt-auto" href="perfil.html?pro=5">Ver horas disponibles</a>
           </article>
         </div>
-        <div class="col-md-6 col-xl-4 profesional" data-nombre="Andrea Lagos" data-esp="Pausa activa" data-region="Maule" data-mod="Presencial" data-precio="45000">
+        <div class="col-md-6 col-xl-4 profesional">
           <article class="tarjeta h-100 d-flex flex-column gap-1">
             <div class="avatar" style="background:#1f8a8a">AL</div>
             <span class="etiqueta align-self-start mt-2">Pausa activa</span>
@@ -126,13 +124,12 @@
             <p class="text-secondary mb-0">Maule · Presencial</p>
             <p class="estrellas mb-0">★★★★★</p>
             <p class="precio mb-1">Desde $45.000</p>
-            
-            <a class="btn btn-somos mt-auto" href="perfil.html">Ver horas disponibles</a>
+            <!-- CAMBIO AQUÍ: Enlace con parámetro ?pro=6 -->
+            <a class="btn btn-somos mt-auto" href="perfil.html?pro=6">Ver horas disponibles</a>
           </article>
         </div>
       </div>
       <p id="sin-resultados" class="d-none mt-3">No hay profesionales con esos filtros. Prueba quitando alguno.</p>
-      <nav class="mt-4" aria-label="Paginación"><span class="text-secondary">Anterior · 1 · 2 · 3 · Siguiente</span></nav>
     </section>
   </div>
 </main>
